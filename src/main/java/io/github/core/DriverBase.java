@@ -31,22 +31,22 @@ import static com.codeborne.selenide.Selenide.*;
  */
 public class DriverBase {
     static final Logger logger = LoggerFactory.getLogger(DriverBase.class);
-
+    ConfigUtils config = new ConfigUtils();
     private final String browser = System.getProperty("browser") == null
-            ? ConfigUtils.get("driver", "browser")
+            ? config.get("driver", "browser")
             : System.getProperty("browser");
 
     private final String version = System.getProperty("version") == null
-            ? ConfigUtils.get("driver", "version")
+            ? config.get("driver", "version")
             : System.getProperty("version");
 
     private final String remoteUrl = System.getProperty("remoteUrl") == null
-            ? ConfigUtils.get("driver", "remoteUrl")
+            ? config.get("driver", "remoteUrl")
             : System.getProperty("remoteUrl");
 
     private final Boolean isServer = System.getProperty("sever") != null;
 
-    private final Integer timeout = Integer.valueOf(ConfigUtils.get("driver", "timeout"));
+    private final Integer timeout = Integer.valueOf(config.get("driver", "timeout"));
     private WebDriver webDriver;
 
     public DriverBase() {

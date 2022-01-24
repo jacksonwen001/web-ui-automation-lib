@@ -14,7 +14,7 @@ import java.util.Locale;
 public class DateUtils {
 
     public static LocalDateTime toLocalDateTime(String time, DatePattern datePattern) {
-        return LocalDateTimeUtil.parse(time, datePattern.getPattern());
+        return LocalDateTimeUtil.parse(time, DateTimeFormatter.ofPattern(datePattern.getPattern(), Locale.ENGLISH));
     }
 
     public static String toDateTimeString(LocalDateTime localDateTime, DatePattern datePattern) {

@@ -42,7 +42,7 @@ public class Element {
      * Get All Elements By xpath
      *
      * @param element
-     * @return
+     * @return 返回 SelenideElement 类
      */
     public static ElementsCollection getAllElements(String element) {
         return $$(By.xpath(element));
@@ -52,34 +52,124 @@ public class Element {
      * Get Element By Id
      *
      * @param id
-     * @return
+     * @return 返回 SelenideElement 类
      */
     public static SelenideElement id(String id) {
         return $(By.id(id));
     }
 
     /**
-     * search element by exact text
-     *
-     * @param text
-     * @return
+     *  寻找 button 元素
+     * @param name
+     * @return 返回  button 元素
      */
-    public static SelenideElement getElementByText(String text) {
-        return $(byText(text));
+    public static SelenideElement button(String name) {
+        String str = String.format("//button[contains(string(), '%s')]", name);
+        return xpath(str);
     }
 
     /**
-     * search element by contained text (substring)
-     *
-     * @param text
-     * @return
+     *  div 元素
+     * @param name
+     * @return 返回  div 元素
      */
-    public static SelenideElement getElementWithText(String text) {
-        return $(withText(text));
+    public static SelenideElement div(String name) {
+        String str = String.format("//div[contains(string(), '%s')]", name);
+        return xpath(str);
     }
 
     /**
-     * select
+     * 返回  p 元素
+     * @param name
+     * @return 返回  button 元素
+     */
+    public static SelenideElement p(String name) {
+        String str = String.format("//p[contains(string(), '%s')]", name);
+        return xpath(str);
+    }
+
+    /**
+     * 返回  span 元素
+     * @param name
+     * @return 返回  span 元素
+     */
+    public static SelenideElement span(String name) {
+        String str = String.format("//span[contains(string(), '%s')]", name);
+        return xpath(str);
+    }
+
+    /**
+     * 返回  label 元素
+     * @param name
+     * @return 返回  label 元素
+     */
+    public static SelenideElement label(String name) {
+        String str = String.format("//label[contains(string(), '%s')]", name);
+        return xpath(str);
+    }
+
+    /**
+     * 返回  a 元素
+     * @param name
+     * @return 返回  a 元素
+     */
+    public static SelenideElement a(String name) {
+        String str = String.format("//a[contains(string(), '%s')]", name);
+        return xpath(str);
+    }
+
+    /**
+     * 返回  h1 元素
+     * @param name
+     * @return 返回  h1 元素
+     */
+    public static SelenideElement h1(String name) {
+        String str = String.format("//h1[contains(string(), '%s')]", name);
+        return xpath(str);
+    }
+
+    /**
+     * 返回  h2 元素
+     * @param name
+     * @return 返回  h2 元素
+     */
+    public static SelenideElement h2(String name) {
+        String str = String.format("//h2[contains(string(), '%s')]", name);
+        return xpath(str);
+    }
+
+    /**
+     * 返回  h3 元素
+     * @param name
+     * @return 返回  h3 元素
+     */
+    public static SelenideElement h3(String name) {
+        String str = String.format("//h3[contains(string(), '%s')]", name);
+        return xpath(str);
+    }
+
+    /**
+     * 返回  h4 元素
+     * @param name
+     * @return 返回  h4 元素
+     */
+    public static SelenideElement h4(String name) {
+        String str = String.format("//h4[contains(string(), '%s')]", name);
+        return xpath(str);
+    }
+
+    /**
+     * 返回  td 元素
+     * @param name
+     * @return 返回  td 元素
+     */
+    public static SelenideElement td(String name) {
+        String str = String.format("//td[contains(string(), '%s')]", name);
+        return xpath(str);
+    }
+
+    /**
+     * select 操作
      *
      * @param arrow
      * @param number
