@@ -41,7 +41,7 @@ public class Table extends Element {
      * @return
      */
     public ElementsCollection th() {
-        return table.shouldBe(Condition.visible).findAll(By.xpath(".//th//span[@class=\"ant-table-column-title\"]"));
+        return table.shouldBe(Condition.visible).findAll(By.xpath(".//th"));
     }
 
     /**
@@ -82,8 +82,11 @@ public class Table extends Element {
         int base = num * row;
         for (int j = base; j < (base + row); j++) {
             int h = j % row;
-
-            String head = th.get(h).text();
+            SelenideElement title = th.get(h).find(By.xpath(".//span[@class=\"ant-table-column-title\"]"));
+            String head = "null";
+            if(title.exists()){
+                 head = title.text();
+            }
 
             String val = td.get(j).text();
             logger.info(">>>>>>>>>>>>>" + head + ": " + val);

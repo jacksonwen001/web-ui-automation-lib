@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import static com.codeborne.selenide.Selenide.*;
+import static io.github.utils.ConfigUtils.ENV;
 
 /**
  * @author: Jackson.Wen
@@ -75,9 +76,13 @@ public class DriverBase {
         closeWebDriver();
     }
 
+    private Path getCookiePath(String name){
+        return Paths.get(".", "cookies", ENV, name + ".txt");
+    }
+
     public void saveCookie(String name) {
         Set<Cookie> cookies = WebDriverRunner.getWebDriver().manage().getCookies();
-        Path path = Paths.get(".", "cookies", name + ".txt");
+        Path path = getCookiePath(name);
         File file = path.toFile();
         if (!FileUtil.exist(file) ||
                 FileUtil.getAttributes(path, false).lastModifiedTime().to(TimeUnit.HOURS) > 8L) {
@@ -89,7 +94,7 @@ public class DriverBase {
     }
 
     private void setCookie(String name) throws Exception {
-        Path path = Paths.get(".", "cookies", name + ".txt");
+        Path path = getCookiePath(name);
         logger.info("time: " + (FileUtil.getAttributes(path, false).lastModifiedTime().toInstant()));
         if (FileUtil.getAttributes(path, false).lastModifiedTime().toInstant()
                 .compareTo(Instant.now()) > 8L) {
