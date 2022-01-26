@@ -7,7 +7,7 @@
     <groupId>io.github.jacksonwen001</groupId>
     <artifactId>web-ui-automation-lib</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.20</version>
+    <version>1.0.24</version>
     <name>web-ui-automation-lib</name>
     <url>https://github.com/codemak2r/autool</url>
     <description>automation tool utils</description>

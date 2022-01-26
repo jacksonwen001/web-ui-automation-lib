@@ -25,6 +25,12 @@ public class Select extends Element {
         this.element = element;
     }
 
+    public void clickArrow(){
+        SelenideElement arrow = element.find(By.xpath(".//div[@aria-autocomplete=\"list\"]"));
+        String id = arrow.shouldBe(Condition.visible).getAttribute("aria-controls");
+        element.find(By.xpath(".//i")).click();
+    }
+
     /**
      * select 操作
      *
@@ -32,9 +38,9 @@ public class Select extends Element {
      */
     private void select(String number) {
         SelenideElement arrow = element.find(By.xpath(".//div[@aria-autocomplete=\"list\"]"));
-        String id = arrow.shouldBe(Condition.visible).getAttribute("aria-controls");
+        String controlId = arrow.shouldBe(Condition.visible).getAttribute("aria-controls");
         element.find(By.xpath(".//i")).click();
-        String pageXpath = String.format("//div[@id=\"%s\"]//li[contains(string(),'%s')]", id, number);
+        String pageXpath = String.format("//div[@id=\"%s\"]//li[contains(string(),'%s')]", controlId, number);
         SelenideElement option = xpath(pageXpath);
         option.shouldBe(Condition.visible).click();
     }
