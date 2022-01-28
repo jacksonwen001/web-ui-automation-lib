@@ -27,7 +27,6 @@ public class Select extends Element {
 
     public void clickArrow(){
         SelenideElement arrow = element.find(By.xpath(".//div[@aria-autocomplete=\"list\"]"));
-        String id = arrow.shouldBe(Condition.visible).getAttribute("aria-controls");
         element.find(By.xpath(".//i")).click();
     }
 

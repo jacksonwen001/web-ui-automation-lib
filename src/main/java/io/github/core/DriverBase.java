@@ -41,22 +41,16 @@ public class DriverBase {
             ? config.get("driver", "version")
             : System.getProperty("version");
 
-    private final String remoteUrl = System.getProperty("remoteUrl") == null
+    private final String remoteUrl = System.getProperty("server") == null
             ? config.get("driver", "remoteUrl")
-            : System.getProperty("remoteUrl");
+            : System.getProperty("server");
 
-    private final Boolean isServer = System.getProperty("sever") != null;
+    private final Boolean isServer = System.getProperty("server") != null;
 
-    private final Integer timeout = Integer.valueOf(config.get("driver", "timeout"));
     private WebDriver webDriver;
 
     public DriverBase() {
-        Configuration.timeout = timeout;
-        SelenideLogger.addListener(DriverSettings.ALLURE_SELENIDE.getAttr(), new AllureSelenide()
-                .screenshots(true)
-                .savePageSource(true)
-                .includeSelenideSteps(true)
-                .enableLogs(LogType.BROWSER, Level.ALL));
+
     }
 
     public void startDriver() {
