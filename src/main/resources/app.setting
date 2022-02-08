@@ -1,5 +1,5 @@
 [driver]
 browser=chrome
-version=96.0
-remoteUrl=http://127.0.0.1:4444/wd/hub
-timeout=35000
+version=98.0
+remoteUrl=http://192.168.106.128:4444/wd/hub
+timeout=20000

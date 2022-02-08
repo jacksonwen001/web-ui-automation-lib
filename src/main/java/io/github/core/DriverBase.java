@@ -1,6 +1,8 @@
 package io.github.core;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
 import com.codeborne.selenide.Configuration;
@@ -8,14 +10,14 @@ import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.github.enums.DriverSettings;
 import io.github.utils.ConfigUtils;
-import io.qameta.allure.selenide.AllureSelenide;
-import io.qameta.allure.selenide.LogType;
+
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -41,24 +43,34 @@ public class DriverBase {
             ? config.get("driver", "version")
             : System.getProperty("version");
 
-    private final String remoteUrl = System.getProperty("server") == null
-            ? config.get("driver", "remoteUrl")
-            : System.getProperty("server");
-
-    private final Boolean isServer = System.getProperty("server") != null;
+    private final String remoteUrl = config.get("driver", "remoteUrl");
+    private String isUseServer = System.getProperty("server");
 
     private WebDriver webDriver;
 
     public DriverBase() {
 
     }
+    public void startServerDriver(){
+        DriverFactory driverFactory = new DriverFactory(browser, version, remoteUrl);
+        webDriver = driverFactory.getRemoteWebDriver();
+        WebDriverRunner.setWebDriver(webDriver);
+    }
 
-    public void startDriver() {
-        if (isServer) {
-            DriverFactory driverFactory = new DriverFactory(browser, version, remoteUrl);
-            webDriver = driverFactory.getRemoteWebDriver();
-            WebDriverRunner.setWebDriver(webDriver);
+    public void startDriver() throws IOException, InterruptedException {
+
+        if (isUseServer!=null) {
+            startServerDriver();
             return;
+        }
+
+        Runtime runtime = Runtime.getRuntime();
+        Process process = runtime.exec(" wmic process where \"caption='chrome.exe'\" get");
+        String message = IoUtil.read(process.getInputStream(), Charset.defaultCharset());
+        if(StrUtil.isBlank(message)){
+            runtime.exec("\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\"  --remote-debugging-port=9222 --incognito");
+        }else{
+            logger.error("【NOTE】可能需要关闭开启的 chrome 浏览器， 如果是在调试过程， 请忽略！");
         }
         DriverFactory driverFactory = new DriverFactory();
         webDriver = driverFactory.getDebugDriver();

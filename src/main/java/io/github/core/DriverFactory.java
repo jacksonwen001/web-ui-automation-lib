@@ -1,10 +1,12 @@
 package io.github.core;
 
+import com.codeborne.selenide.logevents.SelenideLogger;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.enums.DriverSettings;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
@@ -14,6 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * @author: Jackson.Wen
@@ -50,6 +53,7 @@ public class DriverFactory {
         selenoidCap.put(DriverSettings.DNS_SERVERS_IP.getAttr(), DriverSettings.DNS_SERVERS_IP.getVal());
         capabilities.setCapability(DriverSettings.SELENIDE_OPTION.getAttr(), selenoidCap);
         try {
+
             webDriver = new RemoteWebDriver(
                     URI.create(remoteUrl).toURL(),
                     capabilities

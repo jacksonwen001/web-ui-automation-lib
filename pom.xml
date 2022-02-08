@@ -7,7 +7,7 @@
     <groupId>io.github.jacksonwen001</groupId>
     <artifactId>web-ui-automation-lib</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.28</version>
+    <version>1.0.35</version>
     <name>web-ui-automation-lib</name>
     <url>https://github.com/codemak2r/autool</url>
     <description>automation tool utils</description>
@@ -39,14 +39,13 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <selenide.version>6.1.1</selenide.version>
+        <selenide.version>6.2.1</selenide.version>
         <lombok.version>1.18.22</lombok.version>
         <hutool.version>5.7.16</hutool.version>
         <testng.version>7.4.0</testng.version>
         <logback.version>1.2.3</logback.version>
         <mysql.version>8.0.27</mysql.version>
         <assertj.version>3.21.0</assertj.version>
-
     </properties>
     <dependencies>
         <dependency>

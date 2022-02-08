@@ -1,5 +1,6 @@
 package io.github.core;
 
+import com.codeborne.selenide.Selenide;
 import io.github.components.Pagination;
 import io.github.components.Select;
 import io.github.components.enums.Elements;
@@ -13,8 +14,10 @@ import static io.github.components.Element.get;
 public class DriverTest {
     @Test
     public void testStartDriver() throws Exception {
-//        DriverBase driverBase = new DriverBase();
-//        driverBase.startDriver();
+        DriverBase driverBase = new DriverBase();
+        driverBase.startServerDriver();
+        Selenide.open("https://portal.foodtruck-qa.com/");
+
 //        Pagination p = new Pagination();
 //        p.size("10");
 ////        //open("http://www.baidu.com");
