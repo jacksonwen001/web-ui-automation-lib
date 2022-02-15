@@ -16,7 +16,7 @@ public class Pagination extends Element {
     public void size(String number) {
         SelenideElement parent = xpath("//span[string()=\"Page Size:\"]/following-sibling::div");
         Select select = new Select(parent);
-        select.selectOption(number);
+        select.select(number);
     }
 
     /**
@@ -27,6 +27,6 @@ public class Pagination extends Element {
     public void page(String number) {
         SelenideElement parent = xpath("//span[string()=\"Page Size:\"]/preceding-sibling::div");
         Select select = new Select(parent);
-        select.selectOption(number);
+        select.select(number);
     }
 }

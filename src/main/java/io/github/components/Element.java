@@ -1,6 +1,5 @@
 package io.github.components;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import io.github.components.enums.Elements;
@@ -59,11 +58,12 @@ public class Element {
 
     /**
      * 获取元素
+     *
      * @param elements
      * @param name
      * @return
      */
-    public static SelenideElement get(Elements elements, String name){
+    public static SelenideElement get(Elements elements, String name) {
         String str = String.format(elements.getXpath(), name);
         return xpath(str);
     }
@@ -71,36 +71,47 @@ public class Element {
     public static SelenideElement button(String name) {
         return xpath(String.format(Elements.BUTTON.getXpath(), name));
     }
+
     public static SelenideElement span(String name) {
         return xpath(String.format(Elements.SPAN.getXpath(), name));
     }
+
     public static SelenideElement p(String name) {
         return xpath(String.format(Elements.P.getXpath(), name));
     }
+
     public static SelenideElement li(String name) {
         return xpath(String.format(Elements.LI.getXpath(), name));
     }
+
     public static SelenideElement a(String name) {
         return xpath(String.format(Elements.A.getXpath(), name));
     }
+
     public static SelenideElement div(String name) {
         return xpath(String.format(Elements.DIV.getXpath(), name));
     }
+
     public static SelenideElement td(String name) {
         return xpath(String.format(Elements.TD.getXpath(), name));
     }
+
     public static SelenideElement label(String name) {
         return xpath(String.format(Elements.LABEL.getXpath(), name));
     }
+
     public static SelenideElement h1(String name) {
         return xpath(String.format(Elements.H1.getXpath(), name));
     }
+
     public static SelenideElement h2(String name) {
         return xpath(String.format(Elements.H2.getXpath(), name));
     }
+
     public static SelenideElement h3(String name) {
         return xpath(String.format(Elements.H3.getXpath(), name));
     }
+
     public static SelenideElement h4(String name) {
         return xpath(String.format(Elements.H4.getXpath(), name));
     }

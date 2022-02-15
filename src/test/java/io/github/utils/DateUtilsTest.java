@@ -1,8 +1,10 @@
 package io.github.utils;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
+import io.github.core.BaseConfig;
 import io.github.enums.DatePattern;
 import lombok.extern.slf4j.Slf4j;
+import org.aeonbits.owner.ConfigFactory;
 import org.testng.annotations.Test;
 
 import java.time.LocalDateTime;
@@ -17,6 +19,7 @@ import java.util.concurrent.LinkedBlockingDeque;
  */
 @Slf4j
 public class DateUtilsTest {
+    BaseConfig config = ConfigFactory.create(BaseConfig.class);
     @Test
     public void testDate(){
         String time = "1/24/2022 4:23 PM";
@@ -36,5 +39,12 @@ public class DateUtilsTest {
         users.add(a);
         users.add(a);
         log.info("How many size: " + users.size());
+    }
+    @Test
+    public void testConfig(){
+        if(Boolean.valueOf(config.isDebug())){
+            log.info("boolean: " + Boolean.valueOf(config.isDebug()));
+        }
+
     }
 }

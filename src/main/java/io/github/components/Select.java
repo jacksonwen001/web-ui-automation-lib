@@ -4,10 +4,6 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.interactions.Actions;
-
-import static com.codeborne.selenide.Selenide.actions;
-import static com.codeborne.selenide.Selenide.sleep;
 
 /**
  * @author: Jackson.Wen
@@ -25,53 +21,63 @@ public class Select extends Element {
         this.element = element;
     }
 
-    public void clickArrow(){
+    private String getControllerId(){
         SelenideElement arrow = element.find(By.xpath(".//div[@aria-autocomplete=\"list\"]"));
+        String controlId = arrow.shouldBe(Condition.visible).getAttribute("aria-controls");
+        return controlId;
+    }
+
+    public void clickArrow() {
         element.find(By.xpath(".//i")).click();
     }
 
-    /**
-     * select 操作
-     *
-     * @param number
-     */
-    private void select(String number) {
-        SelenideElement arrow = element.find(By.xpath(".//div[@aria-autocomplete=\"list\"]"));
-        String controlId = arrow.shouldBe(Condition.visible).getAttribute("aria-controls");
+    private void select(SelenideElement option){
         element.find(By.xpath(".//i")).click();
-        String pageXpath = String.format("//div[@id=\"%s\"]//li[contains(string(),'%s')]", controlId, number);
-        SelenideElement option = xpath(pageXpath);
         option.shouldBe(Condition.visible).click();
     }
 
+    public void select(String number) {
+        String controlId = getControllerId();
+        String pageXpath = String.format("(//div[@id=\"%s\"]//li[@role=\"option\" and string() = '%s'])[last()]", controlId, number);
+        SelenideElement option = xpath(pageXpath);
+        select(option);
+    }
 
-    public void selectOption(String optionName) {
-        this.select(optionName);
+    public void selectNotContains(String content) {
+        String controlId = getControllerId();
+        String pageXpath = String.format("(//div[@id=\"%s\"]//li[@role=\"option\" and not(contains(string(),'%s'))])[last()]", controlId, content);
+        SelenideElement option = xpath(pageXpath);
+        select(option);
+    }
+    public void selectContains(String number) {
+        String controlId = getControllerId();
+        String pageXpath = String.format("(//div[@id=\"%s\"]//li[@role=\"option\" and contains(string(),'%s')])[last()]", controlId, number);
+        SelenideElement option = xpath(pageXpath);
+        select(option);
     }
 
 
     public void sendKeysAndSelect(String keys, String optionName) {
         SelenideElement closeButton = this.element.find(By.xpath(".//i"));
-        SelenideElement inputElement =this.element.find(By.xpath(".//input"));
+        SelenideElement inputElement = this.element.find(By.xpath(".//input"));
         this.element.click();
         closeButton.click();
         this.element.click();
         inputElement.sendKeys(keys);
-        SelenideElement list = element.find(By.xpath(".//div[@aria-autocomplete=\"list\"]"));
-        String id = list.shouldBe(Condition.visible).getAttribute("aria-controls");
-        String pageXpath = String.format("//div[@id=\"%s\"]//li[contains(string(),'%s')]", id, optionName);
+        String id = getControllerId();
+        String pageXpath = String.format("//div[@id=\"%s\"]//li[@role=\"option\" and contains(string(),'%s')]", id, optionName);
         SelenideElement optionElement = xpath(pageXpath);
         optionElement.shouldBe(Condition.visible).click();
     }
 
-    public ElementsCollection options(){
+    public ElementsCollection options() {
         SelenideElement list = element.find(By.xpath(".//div[@aria-autocomplete=\"list\"]"));
         String id = list.shouldBe(Condition.visible).getAttribute("aria-controls");
-        String pageXpath = String.format("//div[@id=\"%s\"]//li", id);
+        String pageXpath = String.format("//div[@id=\"%s\"]//li[@role=\"option\"]", id);
         return getAllElements(pageXpath);
     }
 
-    public int size(){
-       return this.options().size();
+    public int size() {
+        return this.options().size();
     }
 }

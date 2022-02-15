@@ -21,8 +21,9 @@ public enum Elements {
     A("(//a[contains(string(), '%s')])[last()]"),
     LI("(//li[contains(string(), '%s')])[last()]");
 
-    private String xpath;
-    Elements(String xpath){
+    private final String xpath;
+
+    Elements(String xpath) {
         this.xpath = xpath;
     }
 }
