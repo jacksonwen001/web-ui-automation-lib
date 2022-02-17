@@ -1,0 +1,17 @@
+ApiSuite:
+  - api:
+      url: https://httpbin.org/post
+      method: post
+      headers:
+        - cookie: ${cookie}
+          content-type: application/json
+      body: api.json
+      json-path:
+        - name: name
+  - api:
+      url: https://httpbin.org/cache/${name}
+      method: get
+      headers:
+        - cookie: ${cookieName}
+          content-type: application/json
+
