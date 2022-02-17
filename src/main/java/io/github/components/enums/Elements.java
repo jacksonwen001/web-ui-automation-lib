@@ -19,7 +19,12 @@ public enum Elements {
     TD("(//td[contains(string(), '%s')])[last()]"),
     P("(//p[contains(string(), '%s')])[last()]"),
     A("(//a[contains(string(), '%s')])[last()]"),
-    LI("(//li[contains(string(), '%s')])[last()]");
+    LI("(//li[contains(string(), '%s')])[last()]"),
+    /**
+     * 特定元素
+     */
+    ARROW_DOWN("//i[@aria-label=\"icon: down\"]"),
+    ARROW_UP("//i[@aria-label=\"icon: down\"]");
 
     private final String xpath;
 

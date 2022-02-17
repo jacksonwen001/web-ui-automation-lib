@@ -1,17 +1,31 @@
-ApiSuite:
-  - api:
-      url: https://httpbin.org/post
-      method: post
-      headers:
-        - cookie: ${cookie}
-          content-type: application/json
-      body: api.json
-      json-path:
-        - name: name
-  - api:
-      url: https://httpbin.org/cache/${name}
-      method: get
-      headers:
-        - cookie: ${cookieName}
-          content-type: application/json
+variables:
+  baseUrl: https://httpbin.org
+apis:
+  - url:
+      base: ${baseUrl}
+      path: /post
+    method: post
+    headers:
+      cookie: ${cookie}
+      content-type: application/json
+    body:
+      path: api.json
+      replaces:
+        - key: name
+          val: ${name}
+        - key: age
+          val: 20
+    response:
+      - name: aaa
+        path: name
+      - name: bbb
+        path: name
+  - url:
+      base: ${baseUrl}
+      path: /cache/${name}
+    method: get
+    headers:
+      cookie: ${cookieName}
+      content-type: application/json
+
 

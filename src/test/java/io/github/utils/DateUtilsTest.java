@@ -47,4 +47,8 @@ public class DateUtilsTest {
         }
 
     }
+    @Test
+    public void test(){
+        log.info(System.getProperty("os.name"));
+    }
 }

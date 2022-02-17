@@ -25,6 +25,26 @@ public class Element {
         this.element = element;
     }
 
+    public static SelenideElement byText(String text){
+        return xpath(String.format("(//*[string()=\"%s\"])[last()]", text));
+    }
+
+    public static SelenideElement withText(String text) {
+        return xpath(String.format("(//*[contains(string(), '%s')])[last()]", text));
+    }
+
+    public static SelenideElement byClass(String className) {
+        return xpath(String.format("//*[@class=\"%s\"]", className));
+    }
+
+    public static SelenideElement withClass(String className) {
+        return xpath(String.format("//*[contains(@class, '%s')]", className));
+
+    }
+
+    public static By by(String xpath) {
+        return By.xpath(xpath);
+    }
 
     /**
      * xpath for elements
@@ -56,17 +76,6 @@ public class Element {
         return $(By.id(id));
     }
 
-    /**
-     * 获取元素
-     *
-     * @param elements
-     * @param name
-     * @return
-     */
-    public static SelenideElement get(Elements elements, String name) {
-        String str = String.format(elements.getXpath(), name);
-        return xpath(str);
-    }
 
     public static SelenideElement button(String name) {
         return xpath(String.format(Elements.BUTTON.getXpath(), name));

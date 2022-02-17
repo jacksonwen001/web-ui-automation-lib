@@ -19,6 +19,8 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.*;
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.nio.charset.Charset;
@@ -74,12 +76,23 @@ public class Drivers {
     @SneakyThrows
     private void startChromeForDebug() {
         Runtime runtime = Runtime.getRuntime();
-        Process process = runtime.exec(config.getLocalChrome());
-        String message = IoUtil.read(process.getInputStream(), Charset.defaultCharset());
-        if (StrUtil.isBlank(message)) {
-            runtime.exec(config.startLocalChrome());
-        } else {
-            logger.error("【NOTE】可能需要关闭开启的 chrome 浏览器， 如果是在调试过程， 请忽略！");
+        if(System.getProperty("os.name").contains("windows")){
+            Process process = runtime.exec(config.getWindowsLocalChrome());
+            String message = IoUtil.read(process.getInputStream(), Charset.defaultCharset());
+            if (StrUtil.isBlank(message)) {
+                runtime.exec(config.startWindowsLocalChrome());
+            } else {
+                logger.error("【NOTE】可能需要关闭开启的 chrome 浏览器， 如果是在调试过程， 请忽略！");
+            }
+        }else{
+//            Process process = runtime.exec(config.getMacLocalChrome());
+//            String message = IoUtil.read(process.getInputStream(), Charset.defaultCharset());
+//            if (StrUtil.isBlank(message)) {
+//                Desktop.getDesktop().open(new File("/Applications/Google Chrome.app"));
+//                //runtime.exec("/Applications/GoogleChrome.app/Contents/MacOS/GoogleChrome -remote-debugging-port=9222");
+//            } else {
+//                logger.error("【NOTE】可能需要关闭开启的 chrome 浏览器， 如果是在调试过程， 请忽略！");
+//            }
         }
     }
 

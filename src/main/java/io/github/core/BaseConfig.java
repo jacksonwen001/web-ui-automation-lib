@@ -6,6 +6,7 @@ import org.aeonbits.owner.Reloadable;
 
 /**
  * @author: Jackson.Wen
+ * 读取配置文件信息
  */
 @Config.LoadPolicy(Config.LoadType.MERGE)
 @Config.Sources("classpath:config.properties")
@@ -98,15 +99,28 @@ public interface BaseConfig extends Config, Reloadable {
      * 启动本地谷歌浏览器，并设置 debug 模式
      * @return
      */
-    @Key("browser.startLocalChrome")
-    String startLocalChrome();
+    @Key("windows.browser.startLocalChrome")
+    String startWindowsLocalChrome();
 
     /**
      * 获取本地已经启动的谷歌浏览器信息， 用来判断是否已经启动谷歌浏览器
      * @return
      */
-    @Key("browser.getLocalChrome")
-    String getLocalChrome();
+    @Key("windows.browser.getLocalChrome")
+    String getWindowsLocalChrome();
+    /**
+     * 启动本地谷歌浏览器，并设置 debug 模式
+     * @return
+     */
+    @Key("mac.browser.startLocalChrome")
+    String startMacLocalChrome();
+
+    /**
+     * 获取本地已经启动的谷歌浏览器信息， 用来判断是否已经启动谷歌浏览器
+     * @return
+     */
+    @Key("mac.browser.getLocalChrome")
+    String getMacLocalChrome();
 
     /**
      * 是否是 debug 状态
@@ -166,4 +180,8 @@ public interface BaseConfig extends Config, Reloadable {
 
     @Key("local")
     Boolean isLocal();
+
+    @Key("platform")
+    String platform();
+
 }

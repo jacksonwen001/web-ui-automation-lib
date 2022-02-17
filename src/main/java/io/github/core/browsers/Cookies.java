@@ -45,19 +45,33 @@ public class Cookies {
     }
 
     public void setCookie(String name) throws Exception {
-        Path path = getCookiePath(name);
-        if (FileUtil.getAttributes(path, false).lastModifiedTime().toInstant()
-                .compareTo(Instant.now()) > 8L) {
-            throw new Exception("Session Invalid! Please login again!");
-        }
-
-        String content = FileUtil.readString(path.toFile(), Charset.defaultCharset());
-        Set<JSON> cookies = JSONUtil.parse(content).toBean(Set.class);
+        Set<JSON> cookies = getCookies(name);
         for (JSON cookie : cookies) {
             String cookieName = cookie.getByPath("name").toString();
             String val = cookie.getByPath("value").toString();
             logger.info("name: " + cookieName + " val: " + val);
             WebDriverRunner.getWebDriver().manage().addCookie(new Cookie(cookieName, val));
         }
+    }
+    private Set<JSON> getCookies(String name) throws Exception {
+        Path path = getCookiePath(name);
+        if (FileUtil.getAttributes(path, false).lastModifiedTime().toInstant()
+                .compareTo(Instant.now()) > 8L) {
+            throw new Exception("Session Invalid! Please login again!");
+        }
+        String content = FileUtil.readString(path.toFile(), Charset.defaultCharset());
+        Set<JSON> cookies = JSONUtil.parse(content).toBean(Set.class);
+        return cookies;
+    }
+    public String getCookiesAsHeader(String name) throws Exception {
+        Set<JSON> cookies = getCookies(name);
+
+        StringBuilder sb = new StringBuilder();
+        for (JSON cookie : cookies) {
+            String cookieName = cookie.getByPath("name").toString();
+            String val = cookie.getByPath("value").toString();
+            sb.append(cookieName).append("=").append(val).append(";");
+        }
+        return sb.toString();
     }
 }
