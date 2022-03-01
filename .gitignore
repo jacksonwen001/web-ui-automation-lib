@@ -29,3 +29,6 @@ logs
 target
 *.iml
 allure*
+api.json
+api.yaml
+apis2.yaml

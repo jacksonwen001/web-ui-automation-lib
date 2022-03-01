@@ -53,6 +53,7 @@ public class Cookies {
             WebDriverRunner.getWebDriver().manage().addCookie(new Cookie(cookieName, val));
         }
     }
+
     private Set<JSON> getCookies(String name) throws Exception {
         Path path = getCookiePath(name);
         if (FileUtil.getAttributes(path, false).lastModifiedTime().toInstant()
@@ -63,6 +64,7 @@ public class Cookies {
         Set<JSON> cookies = JSONUtil.parse(content).toBean(Set.class);
         return cookies;
     }
+
     public String getCookiesAsHeader(String name) throws Exception {
         Set<JSON> cookies = getCookies(name);
 

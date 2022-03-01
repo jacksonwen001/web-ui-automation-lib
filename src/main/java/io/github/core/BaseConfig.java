@@ -12,6 +12,19 @@ import org.aeonbits.owner.Reloadable;
 @Config.Sources("classpath:config.properties")
 public interface BaseConfig extends Config, Reloadable {
     BaseConfig BASE_CONFIG = ConfigFactory.create(BaseConfig.class, System.getenv(), System.getProperties());
+
+    @Key("portalUrl")
+    String portalUrl();
+
+    @Key("customerUrl")
+    String customerUrl();
+
+    @Key("commandUrl")
+    String commandUrl();
+
+    @Key("simulatorUrl")
+    String simulatorUrl();
+
     /**
      * 浏览器
      *
@@ -36,13 +49,6 @@ public interface BaseConfig extends Config, Reloadable {
     @Key("browser.version")
     String browserVersion();
 
-    /**
-     * 浏览器窗口大小
-     *
-     * @return
-     */
-    @Key("selenide.browserSize")
-    String screenResolution();
 
     @Key("selenoid.dnsServers")
     String dnsServers();
@@ -53,7 +59,7 @@ public interface BaseConfig extends Config, Reloadable {
      * @return
      */
     @Key("capabilities.enableVNC")
-    String capabilitiesVNC();
+    Boolean enableVNC();
 
     /**
      * 是否开启视频录像
@@ -61,7 +67,9 @@ public interface BaseConfig extends Config, Reloadable {
      * @return
      */
     @Key("capabilities.enableVideo")
-    String capabilitiesVideo();
+    Boolean enableVideo();
+    @Key("selenoid.ui.url")
+    String selenoidUI();
 
     /**
      * 远程 selenium-grid 地址。 也就是 selenoid 的地址 http://ip:4444/wd/hub
@@ -72,65 +80,8 @@ public interface BaseConfig extends Config, Reloadable {
     String remoteUrl();
 
     /**
-     * 环境变量
-     *
-     * @return
-     */
-    @Key("env")
-    String env();
-
-    /**
-     * 测试用例集合名称
-     *
-     * @return
-     */
-    @Key("suite")
-    String suite();
-
-    /**
-     * 线程数量
-     *
-     * @return
-     */
-    @Key("threadCount")
-    String threadCount();
-
-    /**
-     * 启动本地谷歌浏览器，并设置 debug 模式
-     * @return
-     */
-    @Key("windows.browser.startLocalChrome")
-    String startWindowsLocalChrome();
-
-    /**
-     * 获取本地已经启动的谷歌浏览器信息， 用来判断是否已经启动谷歌浏览器
-     * @return
-     */
-    @Key("windows.browser.getLocalChrome")
-    String getWindowsLocalChrome();
-    /**
-     * 启动本地谷歌浏览器，并设置 debug 模式
-     * @return
-     */
-    @Key("mac.browser.startLocalChrome")
-    String startMacLocalChrome();
-
-    /**
-     * 获取本地已经启动的谷歌浏览器信息， 用来判断是否已经启动谷歌浏览器
-     * @return
-     */
-    @Key("mac.browser.getLocalChrome")
-    String getMacLocalChrome();
-
-    /**
-     * 是否是 debug 状态
-     * @return
-     */
-    @Key("debug")
-    Boolean isDebug();
-
-    /**
      * 超时时间
+     *
      * @return
      */
     @Key("selenide.timeout")
@@ -138,6 +89,7 @@ public interface BaseConfig extends Config, Reloadable {
 
     /**
      * 获取用户名
+     *
      * @return
      */
     @Key("username")
@@ -145,6 +97,7 @@ public interface BaseConfig extends Config, Reloadable {
 
     /**
      * 获取密码
+     *
      * @return
      */
     @Key("password")
@@ -152,36 +105,43 @@ public interface BaseConfig extends Config, Reloadable {
 
     /**
      * 获取密码
+     *
      * @return
      */
     @Key("browser.headless")
     Boolean headless();
 
     /**
-     * 等待 30s 超时
+     * 环境变量
+     *
      * @return
      */
-    @Key("waitThirtySeconds")
-    Long waitThirtySeconds();
+    @Key("env")
+    String env();
+
 
     /**
-     * 等待 60s 超时
+     * 是否是 debug 状态
+     *
      * @return
      */
-    @Key("waitOneMinus")
-    Long waitOneMinus();
+    @Key("debug")
+    Boolean isDebug();
 
     /**
-     * 等待 120s 超时
+     * 是否是本地浏览器
+     *
      * @return
      */
-    @Key("waitTwoMinus")
-    Long waitTwoMinus();
-
     @Key("local")
     Boolean isLocal();
 
-    @Key("platform")
-    String platform();
+    /**
+     * 是否在服务器端允许
+     *
+     * @return
+     */
+    @Key("server")
+    Boolean isServer();
 
 }

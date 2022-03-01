@@ -1,15 +1,9 @@
 package io.github.core.browsers;
 
-import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.util.StrUtil;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
-import com.codeborne.selenide.logevents.SelenideLogger;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import io.github.core.BaseConfig;
-import io.qameta.allure.selenide.AllureSelenide;
-import lombok.SneakyThrows;
-import org.aeonbits.owner.ConfigFactory;
+import io.github.core.TestConfig;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -19,11 +13,8 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.*;
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,15 +32,12 @@ public class Drivers {
     private final String dns = "dnsServers";
     private final String enableVNC = "enableVNC";
     private final String enableVideo = "enableVideo";
-    private final String allureSelenide = "AllureSelenide";
-    private final BaseConfig config = ConfigFactory.create(BaseConfig.class);
+    private final TestConfig config = new TestConfig();
     private final Cookies cookies = new Cookies();
 
     public Drivers() {
         Configuration.timeout = config.selenideTimeout();
         Configuration.headless = config.headless();
-        Configuration.savePageSource = false;
-        SelenideLogger.addListener(allureSelenide, new AllureSelenide().screenshots(true));
     }
 
     /**
@@ -70,47 +58,13 @@ public class Drivers {
         return WebDriverRunner.getWebDriver().getTitle();
     }
 
-    /**
-     * 启动用于 debug 的 chrome
-     */
-    @SneakyThrows
-    private void startChromeForDebug() {
-        Runtime runtime = Runtime.getRuntime();
-        if(System.getProperty("os.name").contains("windows")){
-            Process process = runtime.exec(config.getWindowsLocalChrome());
-            String message = IoUtil.read(process.getInputStream(), Charset.defaultCharset());
-            if (StrUtil.isBlank(message)) {
-                runtime.exec(config.startWindowsLocalChrome());
-            } else {
-                logger.error("【NOTE】可能需要关闭开启的 chrome 浏览器， 如果是在调试过程， 请忽略！");
-            }
-        }else{
-//            Process process = runtime.exec(config.getMacLocalChrome());
-//            String message = IoUtil.read(process.getInputStream(), Charset.defaultCharset());
-//            if (StrUtil.isBlank(message)) {
-//                Desktop.getDesktop().open(new File("/Applications/Google Chrome.app"));
-//                //runtime.exec("/Applications/GoogleChrome.app/Contents/MacOS/GoogleChrome -remote-debugging-port=9222");
-//            } else {
-//                logger.error("【NOTE】可能需要关闭开启的 chrome 浏览器， 如果是在调试过程， 请忽略！");
-//            }
-        }
-    }
-
-    /**
-     * 启动本地chrome，不带 debug 模式
-     * @return
-     */
-//    private WebDriver startLocalChrome(){
-////        WebDriverManager.chromedriver().setup();
-////        WebDriver webDriver = new ChromeDriver();
-////        return webDriver;
-//    }
 
     /**
      * 获取 远程服务器 Driver
      *
      * @return
      */
+    @Deprecated
     private RemoteWebDriver getRemoteWebDriver() {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(browserName, config.browser());
@@ -153,14 +107,24 @@ public class Drivers {
      * 启动服务器端的浏览器
      */
     private void startServerDriver() {
-        WebDriverRunner.setWebDriver(getRemoteWebDriver());
+        Configuration.remote = config.remoteUrl();
+        Configuration.reportsFolder = "target/surefire-reports";
+        Configuration.downloadsFolder = "target/downloads";
+
+        Map<String, Object> options = new HashMap<>();
+        options.put("enableVNC", config.enableVNC());
+        options.put("enableVideo", config.enableVideo());
+        options.put("enableLog", true);
+        options.put(dns, new String[]{config.dnsServers()});
+
+        Configuration.browserCapabilities = new ChromeOptions();
+        Configuration.browserCapabilities.setCapability("selenoid:options", options);
     }
 
     /**
      * 启动调试服务器
      */
     private void startDebugDriver() {
-        startChromeForDebug();
         WebDriverRunner.setWebDriver(getDebugDriver());
     }
 
@@ -168,15 +132,17 @@ public class Drivers {
      * 启动 debug 模式或者 server 模式
      */
     public void startDriver() {
-        if(config.isLocal() && config.isDebug()) {
-            // startLocalChrome();
+        if (config.isDebug()) {
+            startDebugDriver();
+            return;
+        }
+        if (config.isLocal()) {
             return;
         }
 
-        if (config.isDebug()) {
-            startDebugDriver();
-        } else {
+        if (config.isServer()) {
             startServerDriver();
+            return;
         }
     }
 
@@ -201,7 +167,8 @@ public class Drivers {
     public void saveCookies(String name) {
         cookies.saveCookie(name);
     }
-    public void cleanCookies(){
+
+    public void cleanCookies() {
         WebDriverRunner.getWebDriver().manage().deleteAllCookies();
     }
 }

@@ -9,16 +9,7 @@ import java.lang.reflect.Method;
 /**
  * @author: Jackson.Wen
  */
+@Deprecated
 public class RetryListener implements IAnnotationTransformer {
-    int counter=2;
-    @Override
-    public void transform(ITestAnnotation testAnnotation, Class testClass, Constructor testConstrutor, Method testMethod)
-    {
-        if (testMethod.getName().equals("ChangeInvocationCountOfMethod")) {
-            System.out.println("Changing invocation for the following method: " + testMethod.getName());
-            testAnnotation.setInvocationCount(counter);
 
-        }
-
-    }
 }

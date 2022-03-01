@@ -25,7 +25,7 @@ public class Element {
         this.element = element;
     }
 
-    public static SelenideElement byText(String text){
+    public static SelenideElement byText(String text) {
         return xpath(String.format("(//*[string()=\"%s\"])[last()]", text));
     }
 

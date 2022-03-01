@@ -7,7 +7,7 @@
     <groupId>io.github.jacksonwen001</groupId>
     <artifactId>web-ui-automation-lib</artifactId>
     <packaging>jar</packaging>
-    <version>2.0.13</version>
+    <version>2.1.13</version>
     <name>web-ui-automation-lib</name>
     <url>https://github.com/codemak2r/autool</url>
     <description>automation tool utils</description>
@@ -45,8 +45,7 @@
 
         <!-- dependence -->
         <java.version>1.8</java.version>
-        <selenide.version>6.2.1</selenide.version>
-        <allure-selenide.version>2.16.1</allure-selenide.version>
+        <selenide.version>6.3.3</selenide.version>
         <testng.version>7.4.0</testng.version>
         <lombok.version>1.18.22</lombok.version>
         <hutool.version>5.7.16</hutool.version>
@@ -56,8 +55,11 @@
         <owner.version>1.0.12</owner.version>
         <webdriverManager.version>5.0.3</webdriverManager.version>
         <selenide-testng.version>6.2.1</selenide-testng.version>
+
+        <!-- allure -->
         <allure-maven.version>2.8</allure-maven.version>
-        <allure-testng.version>2.17.2</allure-testng.version>
+        <allure-testng.version>2.17.3</allure-testng.version>
+
         <snakeyaml.version>1.21</snakeyaml.version>
         <!-- plugin -->
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
@@ -67,15 +69,11 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>io.github.bonigarcia</groupId>
-            <artifactId>webdrivermanager</artifactId>
-            <version>${webdriverManager.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>${snakeyaml.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.aeonbits.owner</groupId>
             <artifactId>owner</artifactId>
@@ -86,21 +84,13 @@
             <artifactId>selenide</artifactId>
             <version>${selenide.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.codeborne</groupId>
-            <artifactId>selenide-testng</artifactId>
-            <version>${selenide-testng.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-testng</artifactId>
             <version>${allure-testng.version}</version>
         </dependency>
-        <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-selenide</artifactId>
-            <version>${allure-selenide.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -226,44 +216,44 @@
             </plugin>
 
             <!-- For  test only-->
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>${maven-resources-plugin.version}</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                    <overwrite>true</overwrite>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>copy-resources</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${basedir}/allure-results/history</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${basedir}/allure-report/history</directory>
-                                    <filtering>true</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>io.qameta.allure</groupId>
-                <artifactId>allure-maven</artifactId>
-                <version>${allure-maven.version}</version>
-                <configuration>
-                    <allureDownloadUrl>https://github.com/allure-framework/allure2/releases/download/%s/allure-%s.zip</allureDownloadUrl>
-                    <!--                    <propertiesFilePath>${basedir}/src/main/resources/allure.properties</propertiesFilePath>-->
-                    <reportDirectory>${basedir}/allure-report</reportDirectory>
-                    <resultsDirectory>${basedir}/allure-results</resultsDirectory>
-                    <reportVersion>2.17.0</reportVersion>
-                </configuration>
-            </plugin>
+<!--            <plugin>-->
+<!--                <artifactId>maven-resources-plugin</artifactId>-->
+<!--                <version>${maven-resources-plugin.version}</version>-->
+<!--                <configuration>-->
+<!--                    <encoding>UTF-8</encoding>-->
+<!--                    <overwrite>true</overwrite>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>copy-resources</id>-->
+<!--                        <phase>validate</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>copy-resources</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <outputDirectory>${basedir}/allure-results/history</outputDirectory>-->
+<!--                            <resources>-->
+<!--                                <resource>-->
+<!--                                    <directory>${basedir}/allure-report/history</directory>-->
+<!--                                    <filtering>true</filtering>-->
+<!--                                </resource>-->
+<!--                            </resources>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>io.qameta.allure</groupId>-->
+<!--                <artifactId>allure-maven</artifactId>-->
+<!--                <version>${allure-maven.version}</version>-->
+<!--                <configuration>-->
+<!--                    <allureDownloadUrl>https://github.com/allure-framework/allure2/releases/download/%s/allure-%s.zip</allureDownloadUrl>-->
+<!--                    &lt;!&ndash;                    <propertiesFilePath>${basedir}/src/main/resources/allure.properties</propertiesFilePath>&ndash;&gt;-->
+<!--                    <reportDirectory>${basedir}/allure-report</reportDirectory>-->
+<!--                    <resultsDirectory>${basedir}/allure-results</resultsDirectory>-->
+<!--                    <reportVersion>2.17.0</reportVersion>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
 
         </plugins>
     </build>

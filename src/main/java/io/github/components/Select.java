@@ -21,7 +21,7 @@ public class Select extends Element {
         this.element = element;
     }
 
-    private String getControllerId(){
+    private String getControllerId() {
         SelenideElement arrow = element.find(By.xpath(".//div[@aria-autocomplete=\"list\"]"));
         String controlId = arrow.shouldBe(Condition.visible).getAttribute("aria-controls");
         return controlId;
@@ -31,7 +31,7 @@ public class Select extends Element {
         element.find(By.xpath(".//i")).click();
     }
 
-    private void select(SelenideElement option){
+    private void select(SelenideElement option) {
         element.find(By.xpath(".//i")).click();
         option.shouldBe(Condition.visible).click();
     }
@@ -49,6 +49,7 @@ public class Select extends Element {
         SelenideElement option = xpath(pageXpath);
         select(option);
     }
+
     public void selectContains(String number) {
         String controlId = getControllerId();
         String pageXpath = String.format("(//div[@id=\"%s\"]//li[@role=\"option\" and contains(string(),'%s')])[last()]", controlId, number);
