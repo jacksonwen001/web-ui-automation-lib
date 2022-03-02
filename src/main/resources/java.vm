@@ -1,0 +1,32 @@
+package ${packageName}
+
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Issue;
+import io.qameta.allure.Story;
+import org.testng.annotations.Test;
+/**
+ * @author ${author}
+ * @version ${version}
+ * @date ${datetime}
+ */
+@Epic("${epic}")
+public class ${className} {
+
+    @Test(description="pre-condition")
+    public void preCondition(){
+
+    }
+    #set( $count = 1 )
+    #foreach ($testcase in $cases)
+    @Story("$testcase.story")
+    @Issue("$testcase.issue")
+    @Test(priority=$count, description="$testcase.testDescription")
+    @Description("$testcase.description")
+    public void $testcase.methodName () {
+
+    }
+    #set( $count = $count + 1 )
+    #end
+
+}

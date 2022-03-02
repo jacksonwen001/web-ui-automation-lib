@@ -1,0 +1,88 @@
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+version(property('version'))
+group(property('group'))
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+javadoc {
+    options.addStringOption("charset", "UTF-8")
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
+}
+
+dependencies {
+    implementation("org.yaml:snakeyaml:1.21")
+    implementation("org.testng:testng:7.4.0")
+    implementation("com.codeborne:selenide:6.3.3")
+    implementation("io.qameta.allure:allure-testng:2.17.3")
+    implementation("cn.hutool:hutool-all:5.7.16")
+    implementation("mysql:mysql-connector-java:8.0.27")
+    implementation("org.assertj:assertj-core:3.21.0")
+    implementation("org.projectlombok:lombok:1.18.22")
+    implementation("org.apache.velocity:velocity-engine-core:2.3")
+
+    annotationProcessor("org.projectlombok:lombok:1.18.22")
+    testAnnotationProcessor("org.projectlombok:lombok:1.18.22")
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'web-ui-automation-lib'
+            from components.java
+            pom {
+                name = 'web-ui-automation-lib'
+                description = 'web ui automation'
+                url = 'https://github.com/jacksonwen001/web-ui-automation-lib'
+                licenses {
+                    license {
+                        name = 'Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'jacksonwen001'
+                        name = 'jacksonwen001'
+                        email = 'jacksonwen001@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git@github.com:jacksonwen001/web-ui-automation-lib.git'
+                    developerConnection = 'scm:git:git@github.com:jacksonwen001/web-ui-automation-lib.git'
+                    url = 'https://github.com/jacksonwen001/web-ui-automation-lib.git'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = "OSSRH"
+            if (project.version.toString().endsWith("-SNAPSHOT")) {
+                url = "https://s01.oss.sonatype.org/content/repositories/snapshots"
+            } else {
+                url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            }
+            credentials {
+                username = findProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
+                password = findProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
+            }
+        }
+    }
+}
+
+signing {
+    sign(publishing.publications.mavenJava)
+}

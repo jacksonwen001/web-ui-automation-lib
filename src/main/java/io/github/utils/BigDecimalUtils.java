@@ -12,10 +12,10 @@ import java.util.regex.Pattern;
  */
 public class BigDecimalUtils {
     static final Logger logger = LoggerFactory.getLogger(BigDecimalUtils.class);
-    static final Pattern p = Pattern.compile("([0-9]\\d*\\.?\\d*)|(0\\.\\d*[1-9])");
+    static final Pattern p = Pattern.compile("[+-]?\\d+(\\.\\d+)?");
 
     public static BigDecimal toBigDecimal(String number) {
-        Matcher matcher = p.matcher(number);
+        Matcher matcher = p.matcher(number.replaceAll("\\$", ""));
         if (matcher.find()) {
             logger.info(matcher.group());
             return new BigDecimal(matcher.group());
