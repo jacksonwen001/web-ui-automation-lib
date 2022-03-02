@@ -40,7 +40,9 @@ dependencies {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifactId = 'web-ui-automation-lib'
+            groupId = findProperty('group')
+            version = findProperty('version')
+            artifactId = findProperty('artifactId')
             from components.java
             pom {
                 name = 'web-ui-automation-lib'
